@@ -1,7 +1,7 @@
-<h1 align="center"><a href="#">LumiTex: Towards High-Fidelity PBR Texture Generation with Lighting-Consistent Priors
+<h1 align="center"><a href="#">LumiTex: Towards High-Fidelity PBR Texture Generation with Illlumination Context
 </a></h2>
 
-[![Website](https://img.shields.io/badge/Project-Website-blue?style=flat&logo=googlechrome&logoColor=white)](#)
+[![Website](https://img.shields.io/badge/Project-Website-blue?style=flat&logo=googlechrome&logoColor=white)](https://lumitex.vercel.app)
 [![License](https://img.shields.io/badge/License-Apache--2.0-929292)](https://www.apache.org/licenses/LICENSE-2.0) 
 
 ## Video
