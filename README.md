@@ -10,8 +10,8 @@
 ## Results
 
 ![](assets/fig-comp_texture_4k_compressed.png)
-![](assets/fig-pbr_comp_4k_compressed.png)
-![](assets/fig-inpaint_4k_compressed.png)
+![](assets/fig-pbr_comp_4k_compressed_white.png)
+![](assets/fig-inpaint_4k_compressed_white.png)
 ![](assets/fig-relight_compressed.png)
 ![](assets/fig-diversity_compressed.png)
 ![](assets/fig-table_results.png)
