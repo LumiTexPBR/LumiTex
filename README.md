@@ -18,17 +18,21 @@
 ![](assets/fig-table_results.png)
 
 
-## Paper & Code
-Under internal review for public release...
+## TODO
+- [ ] Valuation code and results. (ETA: 2026-03-15)
+- [ ] Inference pipeline and pretrained model.
+- [ ] Data processing Code.
 
 
 ## BibTeX
 
 ```
-@article{lumitex2025,
-  title={LumiTex: Towards High-Fidelity PBR Texture Generation with Illumination Context},
-  author={Jingzhi Bao and Hongze Chen and Lingting Zhu and Chenyu Liu and Runze Zhang and Keyang Luo and Zeyu Hu and Weikai Chen and Yingda Yin and Xin Wang and Zehong Lin and Jun Zhang and Xiaoguang Han},
-  journal={arXiv preprint arXiv:2511.19437},
-  year={2025}
+@inproceedings{
+  lumitex2026,
+  title={LumiTex: Towards High-Fidelity {PBR} Texture Generation with Illumination Context},
+  author={Jingzhi Bao and Hongze Chen and Lingting Zhu and Chenyu Liu and Runze Zhang and keyang luo and Zeyu HU and Weikai Chen and Yingda Yin and Xin Wang and Zehong Lin and Jun Zhang and Xiaoguang Han},
+  booktitle={The Fourteenth International Conference on Learning Representations},
+  year={2026},
+  url={https://openreview.net/forum?id=CDwG0Bebfo}
 }
 ```
