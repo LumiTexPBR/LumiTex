@@ -19,9 +19,9 @@
 
 
 ## TODO
-- [ ] Valuation code and results. (ETA: 2026-03-15)
-- [ ] Inference pipeline and pretrained model.
-- [ ] Data processing Code.
+- [x] Valuation code.
+- [ ] Inference pipeline and pretrained model. (ETA: 2026-03-29)
+- [ ] Data processing Code. (ETA: 2026-03-29)
 
 
 ## BibTeX

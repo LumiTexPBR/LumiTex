@@ -1,0 +1,55 @@
+[workspace]
+channels = ["conda-forge"]
+name = "Lumitex"
+platforms = ["linux-64"]
+version = "0.1.0"
+
+[pypi-options]
+extra-index-urls = ["https://download.pytorch.org/whl/cu128"]
+
+[tasks]
+install-nvdiffrast = "pip install --no-build-isolation git+https://github.com/NVlabs/nvdiffrast.git"
+install-pytorch3d = "pip install --no-build-isolation git+https://github.com/facebookresearch/pytorch3d.git"
+post-install = { depends-on = ["install-nvdiffrast", "install-pytorch3d"] }
+
+[dependencies]
+python = "3.11.*"
+pip = "*"
+
+[pypi-dependencies]
+ninja = "*"
+numpy = "<2"
+pybind11 = "*"
+transformers = "==4.56.2"
+diffusers = "==0.35.1"
+peft = "==0.17.1"
+cupy-cuda12x = "*"
+bpy = "*"
+deepspeed = "*"
+einops = "*"
+accelerate = "==1.10.1"
+nvidia-cublas-cu12 = "*"
+bitsandbytes = "*"
+wandb = "*"
+kornia = "*"
+open3d = "*"
+trimesh = "*"
+omegaconf = "*"
+iopath = "*"
+python-box = "*"
+kiui = "*"
+opencv-python = "*"
+imageio = "*"
+sentencepiece = "*"
+gpytoolbox = "*"
+pillow = "*"
+timm = "*"
+pymeshlab = "*"
+rembg = "*"
+scipy = "*"
+onnxruntime = "*"
+xatlas = "*"
+coscmd = "*"
+torch = { version = "==2.7.0", index = "https://download.pytorch.org/whl/cu128" }
+torchvision = "==0.22.0"
+torchaudio = "==2.7.0"

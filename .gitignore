@@ -20,3 +20,8 @@ logs/
 .vscode/
 .idea/
 .history/
+.pixi/
+.rattler-cache/
+.uv-cache/
+.pixi.lock
+__pycache__/
