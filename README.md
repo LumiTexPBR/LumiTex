@@ -19,7 +19,7 @@
 
 
 ## TODO
-- [x] Valuation code.
+- [x] Evaluation code.
 - [ ] Inference pipeline and pretrained model. (ETA: 2026-03-29)
 - [ ] Data processing Code. (ETA: 2026-03-29)
 
