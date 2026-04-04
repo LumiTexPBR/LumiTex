@@ -1,0 +1,32 @@
+render:
+  # Rendering settings
+  resolution: 1024
+  unit_sphere: true
+  camera_type: "ORTHO"
+  num_lightenvs: 3
+  num_images: 32
+  start_azimuth: 0
+  start_elevation: 0
+  fov: 30  # only used when camera_type is "PERSP"
+  material_type: "PBR" # null for RGBA, "PBR" for metallic/roughness
+  extra_outputs: ["normal", "ccm", "Z"]
+  elevations: [0, 20, -20]  # degrees
+  azimuths: [0, 30, 90, 150, 180, 210, 270, 330]  # degrees
+  engine: "CYCLES"
+  samples: 128
+  use_denoising: true
+  film_transparent: true
+
+# Objaverse dataset settings
+dataset:
+  download_dir: "data/objaverse"
+  envmap_dir: "envmaps"
+  data_uids: "data/train_uids.json"
+  rendered_uids_txt: "rendered_uids.txt"
+  output_dir: "test_render"
+  start_index: 0
+  end_index: 20
+  processes: 8
+  gpu_id: 0
+  online_download: false
+  s3_config: null

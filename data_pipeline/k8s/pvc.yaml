@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: lumitex-shared-data
+  namespace: lumitex
+spec:
+  # ReadWriteMany is required: multiple pods write concurrently.
+  # Needs a StorageClass that supports RWX (e.g. NFS, CephFS, AzureFile).
+  accessModes:
+    - ReadWriteMany
+  storageClassName: nfs-client       # <-- change to your cluster's RWX StorageClass
+  resources:
+    requests:
+      storage: 500Gi
+
+# ── Expected directory layout on the PVC ─────────────────────────────
+# /data/
+#   envmaps/               # HDR environment maps (pre-load before starting job)
+#   uids/
+#     data_uids.json       # UID list (pre-load or bake into image)
+#   objaverse/             # Model download cache (pods download on demand)
+#   output/                # Rendered results (uploaded to S3, then cleaned)
+#   rendered_uids/         # Per-pod rendered UID tracking files

@@ -1,0 +1,84 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: lumitex-render
+  namespace: lumitex
+  labels:
+    app: lumitex-renderer
+spec:
+  # ── Indexed Job: each pod gets a unique JOB_COMPLETION_INDEX ───────
+  completionMode: Indexed
+  completions: 63              # ceil(TOTAL_UIDS / CHUNK_SIZE) = ceil(63000/1000)
+  parallelism: 8               # Max concurrent pods (adjust to GPU availability)
+  backoffLimit: 3              # Retry failed pods up to 3 times
+  ttlSecondsAfterFinished: 86400  # Auto-cleanup after 24h
+
+  template:
+    metadata:
+      labels:
+        app: lumitex-renderer
+    spec:
+      restartPolicy: Never
+
+      containers:
+        - name: renderer
+          image: <REGISTRY>/lumitex-renderer:latest    # <-- set your registry
+          command: ["bash", "/app/data_pipeline/k8s/entrypoint.sh"]
+
+          # ── Resources ──────────────────────────────────────────────
+          resources:
+            requests:
+              cpu: "4"
+              memory: "16Gi"
+              nvidia.com/gpu: "1"
+            limits:
+              cpu: "8"
+              memory: "32Gi"
+              nvidia.com/gpu: "1"
+
+          # ── Environment: ConfigMap + Secrets ───────────────────────
+          envFrom:
+            - configMapRef:
+                name: lumitex-render-config
+            - secretRef:
+                name: lumitex-s3-credentials
+            - secretRef:
+                name: lumitex-wandb-key
+                optional: true           # WandB is optional
+
+          # ── Volume mounts ──────────────────────────────────────────
+          volumeMounts:
+            - name: shared-data
+              mountPath: /data
+            - name: s3-config
+              mountPath: /etc/s3
+              readOnly: true
+            - name: dshm
+              mountPath: /dev/shm        # multiprocessing shared memory
+
+      # ── Volumes ──────────────────────────────────────────────────────
+      volumes:
+        - name: shared-data
+          persistentVolumeClaim:
+            claimName: lumitex-shared-data
+
+        - name: s3-config
+          secret:
+            secretName: lumitex-s3-credentials
+            items:
+              - key: s3_config.yaml
+                path: s3_config.yaml
+
+        - name: dshm
+          emptyDir:
+            medium: Memory
+            sizeLimit: "8Gi"
+
+      # ── GPU node scheduling ────────────────────────────────────────
+      tolerations:
+        - key: nvidia.com/gpu
+          operator: Exists
+          effect: NoSchedule
+
+      nodeSelector:
+        nvidia.com/gpu.present: "true"
