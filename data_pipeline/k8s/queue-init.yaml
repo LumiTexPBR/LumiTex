@@ -1,0 +1,28 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: lumitex-queue-init
+  namespace: lumitex
+spec:
+  backoffLimit: 3
+  ttlSecondsAfterFinished: 3600
+  template:
+    metadata:
+      labels:
+        app: lumitex-queue-init
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: init
+          image: <REGISTRY>/lumitex-renderer:latest    # <-- set your registry
+          command: ["python3", "/app/data_pipeline/k8s/queue_init.py"]
+          envFrom:
+            - configMapRef:
+                name: lumitex-render-config
+          resources:
+            requests:
+              cpu: "0.25"
+              memory: "128Mi"
+            limits:
+              cpu: "0.5"
+              memory: "256Mi"

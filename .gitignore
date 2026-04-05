@@ -25,3 +25,4 @@ logs/
 .uv-cache/
 .pixi.lock
 __pycache__/
+*.egg-info/

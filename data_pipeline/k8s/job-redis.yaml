@@ -1,0 +1,78 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: lumitex-render-redis
+  namespace: lumitex
+  labels:
+    app: lumitex-renderer-redis
+spec:
+  # ── Work queue pattern: pods pull tasks from Redis ─────────────────
+  # Do NOT set completions — pods self-coordinate via the Redis queue.
+  parallelism: 8               # Max concurrent GPU pods (adjust to cluster capacity)
+  backoffLimit: 6              # Higher limit since dynamic recovery is available
+  ttlSecondsAfterFinished: 86400
+
+  template:
+    metadata:
+      labels:
+        app: lumitex-renderer-redis
+    spec:
+      restartPolicy: Never
+
+      containers:
+        - name: renderer
+          image: <REGISTRY>/lumitex-renderer:latest    # <-- set your registry
+          command: ["bash", "/app/data_pipeline/k8s/entrypoint-redis.sh"]
+
+          resources:
+            requests:
+              cpu: "4"
+              memory: "16Gi"
+              nvidia.com/gpu: "1"
+            limits:
+              cpu: "8"
+              memory: "32Gi"
+              nvidia.com/gpu: "1"
+
+          envFrom:
+            - configMapRef:
+                name: lumitex-render-config
+            - secretRef:
+                name: lumitex-s3-credentials
+            - secretRef:
+                name: lumitex-wandb-key
+                optional: true
+
+          volumeMounts:
+            - name: shared-data
+              mountPath: /data
+            - name: s3-config
+              mountPath: /etc/s3
+              readOnly: true
+            - name: dshm
+              mountPath: /dev/shm
+
+      volumes:
+        - name: shared-data
+          persistentVolumeClaim:
+            claimName: lumitex-shared-data
+
+        - name: s3-config
+          secret:
+            secretName: lumitex-s3-credentials
+            items:
+              - key: s3_config.yaml
+                path: s3_config.yaml
+
+        - name: dshm
+          emptyDir:
+            medium: Memory
+            sizeLimit: "8Gi"
+
+      tolerations:
+        - key: nvidia.com/gpu
+          operator: Exists
+          effect: NoSchedule
+
+      nodeSelector:
+        nvidia.com/gpu.present: "true"
