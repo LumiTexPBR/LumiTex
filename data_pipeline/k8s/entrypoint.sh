@@ -18,6 +18,9 @@ if [ "${START_INDEX}" -ge "${TOTAL_UIDS}" ]; then
     exit 0
 fi
 
+# ── Ensure output directories exist ──────────────────────────────────
+mkdir -p /data/rendered_uids
+
 echo "============================================="
 echo " Pod index:    ${JOB_COMPLETION_INDEX}"
 echo " UID range:    [${START_INDEX}, ${END_INDEX})"

@@ -30,10 +30,14 @@ ENV PATH="/opt/blender:${PATH}"
 
 # ── Python dependencies (system Python for render_objaverse.py) ─────
 RUN python3 -m pip install --no-cache-dir \
-        numpy objaverse boto3 OpenEXR Pillow tqdm wandb pyyaml
+        numpy objaverse boto3 OpenEXR Pillow tqdm wandb pyyaml redis
 
 # ── Python dependencies (Blender's bundled Python for blender_script.py)
-RUN /opt/blender/4.2/python/bin/python3.11 -m ensurepip \
+# ensurepip may be stripped from Blender's bundled Python; fall back to get-pip.py
+RUN /opt/blender/4.2/python/bin/python3.11 -m ensurepip 2>/dev/null \
+    || (wget -qO /tmp/get-pip.py https://bootstrap.pypa.io/get-pip.py \
+        && /opt/blender/4.2/python/bin/python3.11 /tmp/get-pip.py \
+        && rm /tmp/get-pip.py) \
     && /opt/blender/4.2/python/bin/python3.11 -m pip install --no-cache-dir \
         numpy Pillow
 
@@ -46,8 +50,14 @@ WORKDIR /app/data_pipeline
 # Symlink so bare "blender_script.py" in the blender command resolves
 RUN ln -sf blender_scripts/blender_script.py blender_script.py
 
-# PYTHONPATH: /app for "from utils import *", /app/data_pipeline for "from file_checker import *"
-ENV PYTHONPATH="/app:/app/data_pipeline"
+# PYTHONPATH:
+#   /app                                 -> "from utils import *"  (render_objaverse.py, blender_utils_helper.py)
+#   /app/data_pipeline                   -> "from file_checker import *", "from parse_exr_depth import *"
+#   /app/data_pipeline/blender_scripts   -> "from blender_utils_helper import *"  (blender_script.py)
+#     ^ Required because the symlink makes os.path.abspath(__file__) resolve to
+#       /app/data_pipeline/ instead of blender_scripts/, so the in-script
+#       sys.path.append(os.path.dirname(os.path.abspath(__file__))) adds the wrong dir.
+ENV PYTHONPATH="/app:/app/data_pipeline:/app/data_pipeline/blender_scripts"
 
 # NVIDIA runtime
 ENV NVIDIA_VISIBLE_DEVICES=all
