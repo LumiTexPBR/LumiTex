@@ -163,7 +163,7 @@ def save_rendered_images(rendering: torch.Tensor, output_dir: str, start_index: 
             image.save(os.path.join(output_dir, filename))
 
 
-def setup_model(config_path: str, image_size: int) -> LaCTLVSM:
+def setup_model(config_path: str, image_size: int, model_dir: str = "ckpt/FLUX-MV-Shaded") -> LaCTLVSM:
     """
     Initialize and load the LVSM model.
 
@@ -177,7 +177,7 @@ def setup_model(config_path: str, image_size: int) -> LaCTLVSM:
     model_config = omegaconf.OmegaConf.load(config_path)
     model = LaCTLVSM(**model_config).cuda()
 
-    checkpoint_path = f"ckpt/lvsm{image_size}.pth"
+    checkpoint_path = os.path.join(model_dir, f"lvsm{image_size}.pth")
 
     print(f"Loading checkpoint from {checkpoint_path}...")
     checkpoint = torch.load(checkpoint_path, map_location="cpu")
