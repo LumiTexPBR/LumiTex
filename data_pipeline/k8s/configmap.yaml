@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: lumitex-render-config
+  namespace: lumitex
+data:
+  # ── Work distribution ──────────────────────────────────────────────
+  TOTAL_UIDS: "63000"           # Total number of UIDs in the dataset
+  CHUNK_SIZE: "1000"             # Number of UIDs each pod processes
+  NUM_PROCESSES: "4"             # Blender workers per pod (sharing 1 GPU)
+
+  # ── Data paths ─────────────────────────────────────────────────────
+  DATA_UIDS_PATH: "/data/uids/data_uids.json"
+  S3_CONFIG_PATH: "/etc/s3/s3_config.yaml"
+
+  # ── Rendering parameters (informational, currently hardcoded in render_objaverse.py)
+  # Modify render_objaverse.py if you need to change these at runtime.
+  # RESOLUTION: "1024"
+  # NUM_IMAGES: "6"
+  # NUM_LIGHTENVS: "2"
+  # CAMERA_TYPE: "ORTHO"
+
+  # ── Redis config (only used in Redis mode) ──────────────────────────
+  REDIS_HOST: "lumitex-redis"
+  REDIS_PORT: "6666"
+  REDIS_KEY_PREFIX: "lumitex"
+  REQUEUE_FAILED: "true"         # Re-queue failed chunks on queue-init re-run
+  MAX_EMPTY_RETRIES: "3"         # Worker exits after N consecutive empty polls
+
+  # ── Feature flags ──────────────────────────────────────────────────
+  RENDER_MATERIAL: "true"        # Enable PBR material rendering
+  LOG_TO_WANDB: "false"          # Set "true" to enable WandB logging
+
+  # ── WandB config (only used when LOG_TO_WANDB=true) ────────────────
+  WANDB_PROJECT: "ObjaverseRenderer-LumiTex"
+  WANDB_ENTITY: "xxxxxxxxxxxxxx"

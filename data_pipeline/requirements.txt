@@ -1,0 +1,8 @@
+argparse
+numpy
+objaverse
+boto3
+openexr
+pillow]
+tqdm
+wandb

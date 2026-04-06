@@ -1,0 +1,9 @@
+taskid: render_250304
+protocol: https
+region: ap-guangzhou
+bucket: xxxxxxxxxxxxxx
+cos_paths:
+  prefix: "objaverse_xl"
+  download_dir: "hf-objaverse-v1/glbs"
+  upload_dir: "TextureGen_jingzhi"
+  auth_file: "objaverse_xl/TextureGen_jingzhi/auth.txt"

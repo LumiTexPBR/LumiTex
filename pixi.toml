@@ -9,12 +9,14 @@ extra-index-urls = ["https://download.pytorch.org/whl/cu128"]
 
 [tasks]
 install-nvdiffrast = "pip install --no-build-isolation git+https://github.com/NVlabs/nvdiffrast.git"
-install-pytorch3d = "pip install --no-build-isolation git+https://github.com/facebookresearch/pytorch3d.git"
-post-install = { depends-on = ["install-nvdiffrast", "install-pytorch3d"] }
+install-custom-rasterizer = "pip install --no-build-isolation -e Renderer/custom_rasterizer"
+compile-mesh-painter = "cd Renderer/DifferentiableRenderer && bash compile_mesh_painter.sh && cd ../.."
+post-install = { depends-on = ["install-nvdiffrast", "install-custom-rasterizer", "compile-mesh-painter"] }
 
 [dependencies]
 python = "3.11.*"
 pip = "*"
+cuda-toolkit = "12.8.*"
 
 [pypi-dependencies]
 ninja = "*"
@@ -53,3 +55,6 @@ coscmd = "*"
 torch = { version = "==2.7.0", index = "https://download.pytorch.org/whl/cu128" }
 torchvision = "==0.22.0"
 torchaudio = "==2.7.0"
+# icecream = ">=2.1.10, <3"
+# prodigyopt = ">=1.1.2, <2"
+# webdataset = ">=1.0.2, <2"

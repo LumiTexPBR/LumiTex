@@ -12,7 +12,6 @@ accelerate==1.10.1
 nvidia-cublas-cu12
 bitsandbytes
 wandb
-icecream
 kornia
 open3d
 trimesh
@@ -21,7 +20,7 @@ iopath
 python-box
 kiui
 opencv-python
-imageio
+imageio[ffmpeg]
 sentencepiece
 gpytoolbox
 pillow 
@@ -33,4 +32,3 @@ onnxruntime
 xatlas
 coscmd
 git+https://github.com/NVlabs/nvdiffrast.git
-git+https://github.com/facebookresearch/pytorch3d.git
