@@ -24,5 +24,19 @@ logs/
 .rattler-cache/
 .uv-cache/
 .pixi.lock
+pixi.lock
 __pycache__/
 *.egg-info/
+attention_processor_train.py
+ckpt/
+tmp/
+
+dataset*
+output*
+train*
+
+# API keys
+fal*
+google*
+.claude
+wandb*

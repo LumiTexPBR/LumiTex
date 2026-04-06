@@ -670,7 +670,7 @@ if __name__ == "__main__":
     save_suffix = None
     
     pipe = FluxMVPipeline(
-        pretrained_model="ckpt/FLUX-MV-Shaded", # "Jingzhi/Flux-MV-Shaded",
+        pretrained_model="ckpt/FLUX-MV-Shaded", # "Jingzhi03/FLUX-MV-Shaded",
         custom_pipeline="lumitex",
         pbr_mode=pbr_mode,
         resolution=512,
@@ -680,7 +680,7 @@ if __name__ == "__main__":
     pipe.infer_mode_list = ["AL"] # Add "MR" for metallic & roughness generation
     pipe.lora_path = {
         "AL": "./ckpt/FLUX-MV-Shaded/pytorch_lora_weights_al.safetensors",
-        "MR": "./ckpt/FLUX-MV-Shaded/pytorch_lora_weights_mr.safetensors",
+        # "MR": "./ckpt/FLUX-MV-Shaded/pytorch_lora_weights_mr.safetensors",
     }
     
     pipe = pipe.to(device="cuda")
