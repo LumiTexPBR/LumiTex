@@ -419,7 +419,7 @@ class CustomFluxTransformer2DModel(
         self.transformer = transformer
         self.ccm_embed = FluxPosEmbed(theta=10000, axes_dim=(16, 56, 56)) # (42, 42, 44) -> (1536, 128)
         self.pbr_mode = pbr_mode
-        logger.info(f"FluxMVPipeline PBR Mode: {pbr_mode}")
+        # logger.info(f"FluxMVPipeline PBR Mode: {pbr_mode}")
         self.init_attention(self.transformer, use_ma=False, use_ra=False)
         
         if pbr_mode:
@@ -427,7 +427,7 @@ class CustomFluxTransformer2DModel(
             self.register_parameter('learned_mr_token', nn.Parameter(torch.zeros(1, 128, 4096, dtype=self.transformer.dtype)))
             if pbr_mode == "MR":
                 self.dino_embedder = nn.Linear(768, 3072, bias=True, dtype=self.transformer.dtype, device=self.transformer.device)
-                logger.info("DINOv2 embedder initialized")
+                logger.info("[MR] DINOv2 embedder initialized")
 
     def fuse_lora(
         self,
@@ -600,10 +600,10 @@ class CustomFluxTransformer2DModel(
             missing_keys, unexpected_keys = transformer.load_state_dict(transformer_ckpt, strict=False)
             # Filter out any keys containing "attn_mv" from missing_keys
             # missing_keys = [k for k in missing_keys if "lora" not in k]
-            if missing_keys:
-                logger.warning(f"Missing keys: {missing_keys}")
-            if unexpected_keys:
-                logger.warning(f"Unexpected keys: {unexpected_keys}")
+            # if missing_keys:
+            #     logger.warning(f"Missing keys: {missing_keys}")
+            # if unexpected_keys:
+            #     logger.warning(f"Unexpected keys: {unexpected_keys}")
             
         transformer = transformer.to(dtype=torch_dtype)
         return transformer
