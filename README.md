@@ -1,5 +1,5 @@
 # Geometry-guided LVSM
-The code is modified from [LACT-NVS](https://github.com/a1600012888/LaCT/tree/main/lact_nvs). We changed the code to support geometry-guided LVSM. To be specific, we add ccm map and normal map as additional conditioned, and replace the perspective projection's ray map with orthogonal projection's ray map.
+The code is modified from [LACT-NVS](https://github.com/a1600012888/LaCT/tree/main/lact_nvs). We changed the code to support geometry-guided LVSM. To be specific, we add ccm map and normal map as additional conditions, and replace the perspective projection's ray map with orthogonal projection's ray map.
 
 ## Environment Setup
 Install the python dependencies:
